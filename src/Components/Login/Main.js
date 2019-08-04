@@ -8,7 +8,7 @@ export default withAuth(class Login extends Component {
     super(props);
 
     this.state = {
-      authenticated: null
+      authenticated: false
     };
     
     this.checkAuthentication();

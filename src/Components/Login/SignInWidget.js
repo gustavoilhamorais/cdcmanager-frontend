@@ -7,7 +7,7 @@ export default class SignInWidget extends Component {
   componentDidMount() {
     const el = ReactDOM.findDOMNode(this);
     this.widget = new OktaSignIn({
-      baseUrl: 'https://dev-177749.okta.com',
+      baseUrl: 'https://dev-675287.okta.com',
       logo: 'logo.png'
     });
     this.widget.renderEl({el}, this.props.onSuccess, this.props.onError);

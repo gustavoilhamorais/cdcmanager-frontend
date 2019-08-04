@@ -36,13 +36,13 @@ function onAuthRequired({history}) {
 // Routes //
 const Routes = () => (
   <BrowserRouter>
-    <Security issuer="https://dev-177749.okta.com/oauth2/default"
-              client_id="0oaxgspx4GDsne8XO356"
+    <Security issuer="https://dev-675287.okta.com/oauth2/default"
+              client_id="0oa1234pheVYoimPF357"
               redirect_uri={window.location.origin + '/implicit/callback'}
               onAuthRequired={onAuthRequired}>
       <Switch>
           <Route path="/register" component={Register} />
-          <Route path="/login" render={() => <Login baseURL="https://dev-177749.okta.com"/>} />
+          <Route path="/login" render={() => <Login baseURL="https://dev-675287.okta.com"/>} />
           <Route path="/implicit/callback" component={ImplicitCallback} />
         <NavigationContext>
           <SecureRoute exact path="/" component={Dashboard} />
