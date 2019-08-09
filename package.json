@@ -36,5 +36,6 @@
   "devDependencies": {
     "yarn": "^1.16.0"
   },
+  "homepage": "https://master.d3rz9zawdsz7m1.amplifyapp.com/#/dashboard",
   "proxy": "http://34.214.67.208:8080/api"
 }
