@@ -26,15 +26,10 @@ class CreateCategories extends Component {
       "gender": this.state.gender,
       "minimumAtStorage": this.state.minimumAtStorage
     };
-
-    const message = "categoria criada com sucesso."
-    postRequest("/categories", newCategory, message)
-      .then(res => {
-        if(res.data.status === 200) {
-          this.props.history.push("/categories")
-        }
-        else SwalFire(res.data.message, 'warning');
-      });
+    const response = postRequest('/categories', newCategory);
+    if (response !== undefined) {
+      if (response ===  true) this.props.history.push('/categories');
+    }
   };
 
   handleChange = e => {

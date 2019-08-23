@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import api from "../../api/conf";
 import { Link, withRouter } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 class Merchans extends Component {
     state = {
@@ -12,47 +13,45 @@ class Merchans extends Component {
     componentDidMount() {
         this.loadMerchans();
     }
-
     loadMerchans = async (page = 1) => {
         const response = await api.get(`/merchandise?page=${page}`);
-
         const { docs, ...merchanInfo } = response.data;
-
         this.setState({merchans: docs, merchanInfo, page });
     };
 
     prevPage = () => {
       const { page } = this.state;
-  
       if (page === 1) return;
-  
       const pageNumber = page - 1;
-  
       this.loadSales(pageNumber);
     };
   
     nextPage = () => {
       const { page, merchanInfo } = this.state;
-  
       if (page === merchanInfo.pages) return;
-  
       const pageNumber = page + 1;
-  
       this.loadMerchans(pageNumber);
     };
 
     deleteMerchan = async id => {
-      const confirm = window.confirm("Você deseja mesmo deletar?");
-  
-      if (confirm === true) {
-        await api.delete(`/merchandise/${id}`);
-        await this.loadMerchans();
-      };
-    };
+      Swal.fire({
+        title: 'Atenção!',
+        html: '<p>Você tem certeza que deseja apagar esta mercadoria?</p>',
+        type: 'warning',
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Sim, deletar!',
+        cancelButtonText: 'Cancelar'
+      }).then(response => {
+        if (response.value === true) {
+          api.delete(`/merchandise/${id}`);
+          this.loadMerchans();
+        }
+      });
+    }
 
     render() {
       const { merchans, page, merchanInfo } = this.state;
-      
         return (
             <div className="card shadow mb-4">
             <div className="card-header py-3">
@@ -88,16 +87,18 @@ class Merchans extends Component {
                       <td>{merchan.category}</td>
                       <td>{merchan.sellValue}</td>
                       <td>{merchan.buyValue}</td>
-                      <td>{merchan.status}</td>
+                      <td>{merchan.status ? 'No estoque' : 'Fora do Estoque'}</td>
                       <td>{merchan.code}</td>
-                      <td>
-                      <Link to={`/edit-merchan/${merchan._id}`} className="btn btn-secondary btn-bg ml-1 fas fa-edit" />
-                      <button
-                        className="btn btn-danger btn-bg ml-1 fas fa-trash"
-                        name="deleteBtn"
-                        onClick={()=> { this.deleteMerchan(merchan._id) }}
-                      >
-                      </button>
+                      <td className="text-center">
+                        <Link to={`/edit-merchan/${merchan._id}`} className="btn btn-secondary btn-sm ml-1" >
+                          <i className="fas fa-edit" />
+                        </Link>
+                        <button
+                          className="btn btn-danger btn-sm ml-1"
+                          name="deleteBtn"
+                          onClick={()=> { this.deleteMerchan(merchan._id) }}
+                        ><i className="fas fa-ban" />
+                        </button>
                       </td>
                     </tr>
                   ))}

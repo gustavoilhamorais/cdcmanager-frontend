@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import api from "../../api/conf";
 import { Link, withRouter } from "react-router-dom";
 import FinishRental from './FinishRental';
+import Swal from 'sweetalert2';
 
 class Rentals extends Component {
   state = {
@@ -12,48 +13,51 @@ class Rentals extends Component {
 
   componentWillMount() {
     this.loadRentals();
-    
   }
 
   loadRentals = async (page = 1) => {
     const response = await api.get(`/rentals?page=${page}`);
-
     const { docs, ...rentInfo } = response.data;
     this.setState({ rentals: docs, rentInfo, page });
   };
 
   prevPage = () => {
     const { page } = this.state;
-
     if (page === 1) return;
-
     const pageNumber = page - 1;
-
     this.loadSales(pageNumber);
   };
 
   nextPage = () => {
     const { page, rentInfo } = this.state;
-
     if (page === rentInfo.pages) return;
-
     const pageNumber = page + 1;
-
     this.loadRentals(pageNumber);
   };
 
   deleteRent = async id => {
-    const confirm = window.confirm("Você deseja mesmo deletar?");
-
-    if (confirm === true) {
-      await api.delete(`/rentals/${id}`);
-      await this.loadRentals();
-    };
+    Swal.fire({
+      title: 'Atenção!',
+      html: '<p>Você tem certeza que deseja apagar esta Ordem de Serviço?</p>',
+      type: 'warning',
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Sim, deletar!',
+      cancelButtonText: 'Cancelar'
+    }).then(response => {
+      if (response.value === true) {
+        api.delete(`/rentals/${id}`);
+        this.loadRentals();
+      }
+    });
   };
+
+  handleStatus () {
+    this.loadRentals();
+  }
 
   render() {
     const { page, rentInfo } = this.state;
-
     return (
       <div className="container-fluid">
         <div className="card shadow mb-4">
@@ -85,23 +89,24 @@ class Rentals extends Component {
                 </tr>
               </tfoot>
               <tbody>
-                {this.state.rentals.map(rent => (
-                  <tr key={rent._id}>
-                    <td>{rent.customer}</td>
+                {this.state.rentals.map((rent, index) => (
+                  <tr key={index}>
+                    <td>{rent.customer.name}</td>
                     <td>{rent.merchan}</td>
                     <td>{rent.value}</td>
                     <td>{(rent.status) ? (<p>Em execução</p>) : (<p>Venda efetivada</p>) }</td>
                     <td>{rent.deadline}</td>
-                    <td>
-                    <Link to={`/edit-rental/${rent._id}`} className="btn btn-secondary btn-bg ml-1 fas fa-edit" />
+                    <td className="text-center">
+                    <Link key={'Link'+index} to={`/edit-rental/${rent._id}`} className="btn btn-secondary btn-sm ml-1">
+                      <i className="fas fa-edit"/>
+                    </Link>
                       <button
-                        className="btn btn-danger ml-1 fas fa-ban"
+                        className="btn btn-danger btn-sm ml-1"
                         name="deleteBtn"
                         onClick={()=> { this.deleteRent(rent._id) }}
-                      >
+                        ><i className="fas fa-ban" />
                       </button>
-                      
-                      <FinishRental rentid={rent._id}/>
+                      <FinishRental callback={() => this.handleStatus(index)} status={rent.status} id={rent._id}/>
                     </td>
                   </tr>
                 ))}

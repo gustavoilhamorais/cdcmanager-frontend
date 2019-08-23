@@ -1,36 +1,26 @@
-import React, { Component } from "react";
-import api from "../../../api/conf";
+import React, { useEffect, useState } from 'react';
+import api from '../../../api/conf';
 
-export default class FinishRental extends Component {
-  async check(props) {
-    const toCheck = await api.get(`/rentals/${props.rentid}`);
-
-    if (toCheck.data.status === true) {
-      toCheck.data.status = false;
-    } else {
-      toCheck.data.status = true;
-    }
-
-    await api
-    .put(`/rentals/${props.rentid}`, toCheck.data)
-    .then(response => {
-      if (response.status === 200) {
-        this.props.history.push("/rentals");
-      }
-    })
-    .catch(err => {
-      console.log(err);
+export default function FinishRental(props) {
+  const [id, setId] = useState(0);
+  const [status, setStatus] = useState(false);
+  useEffect(() => {
+    setId(props.id);
+    setStatus(props.status);
+  }, []);
+  const handleClick = () => {
+    status ? setStatus(false) : setStatus(true);
+    api.put(`rentals/${id}`, { status: status })
+    .then((res) => {
+      console.log(res);
+      props.callback()
     });
   }
-
-  render() {
-    return (
-      <button
-        className="btn btn-success btn-bg ml-1 fas fa-check-circle"
-        onClick={() => this.check(this.props)}
-        rentid={this.props.rentid}
-      >
-      </button>
-    );
-  }
+  return (
+    <button className="btn btn-success btn-sm ml-1"
+      onClick={() => handleClick()}
+      callback={() => props.callback()}
+      ><i className="fas fa-check-circle" />
+    </button>
+  );
 }

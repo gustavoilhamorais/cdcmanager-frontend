@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import api from "../../api/conf";
 import { Link, withRouter } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 class Sales extends Component {
   state = {
@@ -24,7 +25,7 @@ class Sales extends Component {
         }
       });
 
-      this.setState({ sales });
+      // this.setState({ sales });
     } catch (error) {
       console.log(error)
     }
@@ -60,12 +61,20 @@ class Sales extends Component {
   };
 
   deleteSale = async id => {
-    const confirm = window.confirm("Você deseja mesmo deletar?");
-
-    if (confirm === true) {
-      await api.delete(`/sales/${id}`);
-      await this.loadSales();
-    };
+    Swal.fire({
+      title: 'Atenção!',
+      html: '<p>Você tem certeza que deseja apagar esta venda?</p>',
+      type: 'warning',
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Sim, deletar!',
+      cancelButtonText: 'Cancelar'
+    }).then(response => {
+      if (response.value === true) {
+        api.delete(`/sales/${id}`);
+        this.loadSales();
+      }
+    });
   };
 
   render() {
@@ -102,20 +111,22 @@ class Sales extends Component {
               </tr>
             </tfoot>
             <tbody>
-              {sales.map(sale => (
+              {sales.map((sale, index) => (
                 <tr key={sale._id}>
                   <td>{sale.customer}</td>
                   <td>{sale.merchan}</td>
                   <td>{sale.discount}</td>
                   <td>{sale.value}</td>
                   <td>{sale.observations}</td>
-                  <td>
-                  <Link to={`/edit-sale/${sale._id}`} className="btn btn-secondary btn-bg ml-1 fas fa-edit" />
+                  <td className="text-center">
+                    <Link key={'Link'+index} to={`/edit-sale/${sale._id}`} className="btn btn-secondary btn-sm ml-1">
+                      <i className="fas fa-edit"/>
+                    </Link>
                   <button
-                    className="btn btn-danger btn-bg ml-1 fas fa-trash"
+                    className="btn btn-danger btn-sm ml-1"
                     name="deleteBtn"
                     onClick={()=> { this.deleteSale(sale._id) }}
-                  >
+                  ><i className="fas fa-ban"/>
                   </button>
                   </td>
                 </tr>

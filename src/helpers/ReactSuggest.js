@@ -5,14 +5,11 @@ import { SwalFire } from './swalFire';
 export default class ReactSuggest extends React.Component {
   constructor(props) {
     super(props);
-
     this.items = [];
-
     this.state = {
       suggestions: [],
-      text: ''
+      text: '',
     };
-
     this.onTextChange = this.onTextChange.bind(this);
   }
 
@@ -57,10 +54,12 @@ export default class ReactSuggest extends React.Component {
         } else if(url === '/customers') {
           getRequest(url)
             .then(res => {
-              if(res.data.status === 200) {
-                res.docs.map(customer => this.items.push(customer.name));
+              if(res.status === 200) {
+                res.data.docs.map(customer => {
+                  this.items.push(customer.name);
+                });
               }
-              else SwalFire(res.data.message, 'warning');
+              else SwalFire('Erro ao carregar clientes.', 'warning');
             });
           } else if(url === '/rentals') {
             getRequest(url)
@@ -136,7 +135,6 @@ export default class ReactSuggest extends React.Component {
             value={text}
             type={this.props.type || "text"}
             tooltip={this.props.tooltip}
-
             url={this.props.url}
             onKeyDown={this.props.onChange}
             onClick={this.props.onChange}

@@ -19,7 +19,6 @@ export default class RentsCard extends Component {
   apiHandler = async () => {
     try {
       const res = await getRequest('/');
-
       if(res.status === 200) {
         if(res.data.activeRentals !== undefined) {
           this.setState({ totalActiveRentals: res.data.activeRentals });

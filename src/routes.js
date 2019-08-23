@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 
 // Pages //
@@ -30,12 +30,12 @@ import UpdateRental from "./Pages/Update/Rental";
 import UpdateSale from "./Pages/Update/Sale";
 
 function onAuthRequired({history}) {
-  history.push('/login');
+  history.push('/#/login');
 }
 
 // Routes //
 const Routes = () => (
-  <HashRouter>
+  <BrowserRouter>
     <Security issuer="https://dev-675287.okta.com/oauth2/default"
               client_id="0oa1234pheVYoimPF357"
               redirect_uri={window.location.origin + '/implicit/callback'}
@@ -67,7 +67,7 @@ const Routes = () => (
         </NavigationContext>
       </Switch>
     </Security>
-  </HashRouter>
+  </BrowserRouter>
 );
 
 export default Routes;

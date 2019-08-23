@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import api from "../../api/conf";
 import { Link, withRouter } from "react-router-dom";
+import Swal from "sweetalert2";
 
 class Providers extends Component {
   state = {
@@ -15,44 +16,43 @@ class Providers extends Component {
 
   loadProviders = async (page = 1) => {
     const response = await api.get(`/providers?page=${page}`);
-
     const { docs, ...providerInfo } = response.data;
-
     this.setState({ providers: docs, providerInfo, page });
   };
 
   prevPage = () => {
     const { page } = this.state;
-
     if (page === 1) return;
-
     const pageNumber = page - 1;
-
     this.loadSales(pageNumber);
   };
 
   nextPage = () => {
     const { page, providerInfo } = this.state;
-
     if (page === providerInfo.pages) return;
-
     const pageNumber = page + 1;
-
     this.loadProviders(pageNumber);
   };
 
   deleteProvider = async id => {
-    const confirm = window.confirm("Você deseja mesmo deletar?");
-
-    if (confirm === true) {
-      await api.delete(`/providers/${id}`);
-      await this.loadProviders();
-    };
+    Swal.fire({
+      title: "Atenção!",
+      html: "<p>Você tem certeza que deseja apagar este fornecedor?</p>",
+      type: "warning",
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Sim, deletar!",
+      cancelButtonText: "Cancelar"
+    }).then(response => {
+      if (response.value === true) {
+        api.delete(`/providers/${id}`);
+        this.loadProviders();
+      }
+    });
   };
 
   render() {
     const { providers, page, providerInfo } = this.state;
-
       return (
         <div className="container-fluid">
         <div className="card shadow mb-4">
@@ -88,13 +88,15 @@ class Providers extends Component {
                     <td>{provider.address}</td>
                     <td>{provider.document}</td>
                     <td>{provider.phone}</td>
-                    <td>
-                    <Link to={`/edit-provider/${provider._id}`} className="btn btn-secondary btn-bg ml-1 fas fa-edit" />
+                    <td className="text-center">
+                    <Link to={`/edit-provider/${provider._id}`} className="btn btn-secondary btn-sm ml-1">
+                      <i className="fas fa-edit" />
+                    </Link>
                     <button
-                      className="btn btn-danger btn-bg ml-1 fas fa-trash"
+                      className="btn btn-danger btn-sm ml-1"
                       name="deleteBtn"
                       onClick={()=> { this.deleteProvider(provider._id) }}
-                    >
+                      ><i className="fas fa-ban" />
                     </button>
                     </td>
                   </tr>

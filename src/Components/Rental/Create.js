@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { postRequest } from '../../helpers/apiLexicon';
 import ReactSuggest from '../../helpers/ReactSuggest';
-
+import MerchandiseList from '../Merchan/MerchandiseList';
 class CreateRentals extends Component {
   state = {
     customer: "",
@@ -10,14 +10,12 @@ class CreateRentals extends Component {
     discount: "",
     value: 0,
     observations: "",
-    deadline: ""
+    deadline: "",
   };
 
   handleSubmit = e => {
     e.preventDefault();
-
     const { customer, merchan, discount, value, observations, deadline } = this.state;
-
     let newRental = {
       "customer": customer,
       "merchan": merchan, 
@@ -26,19 +24,28 @@ class CreateRentals extends Component {
       "value": Number(value),
       "discount": Number(discount),
     };
-
-    const message = 'Nova tarefa criada.'
-    postRequest('/rentals', newRental, message)
-      .then((res) => {
-        if(res === 200) {
-          this.props.history.push("/rentals")
-        }
-      });
-  };
+    postRequest('/rentals', newRental).then(status => {
+      if (status) this.props.history.push('/rentals');
+    });
+  }
 
   handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  callback(props) {
+    this.setState({ value: props.total, merchan: props.value });
+  }
+
+  discount(e) {
+    this.setState({ discount: e.target.value });
+    const percent = e.target.value;
+    const discount = Number(percent) * Number(this.state.value);
+    const value = Number(this.state.value) - Number(discount);
+    this.setState({ value: value });
+  }
 
   render() {
     return (
@@ -61,38 +68,11 @@ class CreateRentals extends Component {
                   onChange={this.handleChange.bind(this)}
                   url="/customers"
                   value=""
+                  id=""
                 />
-
-              <label className="form-label font-weight-bold">Mercadorias</label>
-              <div class="input-group col-md-8 mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-boxes"></i></span>
-                </div>
-                <textarea
-                  className="form-control"
-                  type="text"
-                  name="merchan"
-                  placeholder="Informe as mercadorias da venda . . ."
-                  onChange={this.handleChange}
-                  value={this.state.merchan}/>
-              </div>
-              
-
-              <label className="form-label font-weight-bold">Desconto</label>
-              <div className="input-group col-md-4 mb-3">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">{this.state.discount || 0.0}</span>
-                  <span className="input-group-text"><i class="fas fa-percent"></i></span>
-                </div>
-                <input
-                  className="form-control"
-                  name="discount" placeholder="0.00"
-                  type="number" min="0.00" max="1.0" step="0.01"
-                  onChange={this.handleChange} value={this.state.discount}/>
-              </div>
-
+              <MerchandiseList callback={(e) => this.callback(e)}/>              
               <label className="form-label font-weight-bold">Valor</label>
-              <div className="input-group col-md-4 mb-3">
+              <div className="input-group col-md-6 mb-3">
                 <div className="input-group-prepend">
                   <span className="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
                   <span className="input-group-text">R$</span>
@@ -103,7 +83,18 @@ class CreateRentals extends Component {
                   type="number" min="0.00" max="100.000,00" step="0.01"
                   onChange={this.handleChange} value={this.state.value}/>
               </div>
-
+              <label className="form-label font-weight-bold">Desconto</label>
+              <div className="input-group col-md-4 mb-3">
+                <div className="input-group-prepend">
+                  <span className="input-group-text">{this.state.discount || 0.0}</span>
+                  <span className="input-group-text"><i class="fas fa-percent"></i></span>
+                </div>
+                <input
+                  className="form-control"
+                  name="discount" placeholder="0.00"
+                  type="number" min="0.00" max="1.0" step="0.01"
+                  onChange={this.discount.bind(this)} value={this.state.discount}/>
+              </div>
               <label className="form-label font-weight-bold">Observações</label>
               <div class="input-group col-md-8 mb-3">
                 <div class="input-group-prepend">

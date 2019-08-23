@@ -32,14 +32,10 @@ class CreateMerchans extends Component {
       "code": this.state.code,
       "autoBecomeAvailable": this.state.autoBecomeAvailable
     };
-    console.log(newMerchan);
-    postRequest('/merchandise', newMerchan, 'Mercadoria cadastrada!')
-      .then(res => {
-        if(res.data.status === 200) {
-          this.props.history.push("/merchans");
-        
-        } else SwalFire(res.data.message, 'warning');
-      });
+    const response = postRequest('/merchandise', newMerchan);
+    if (response !== undefined) {
+      if (response ===  true) this.props.history.push('/merchandise');
+    }
   };
 
   handleChange = e => {

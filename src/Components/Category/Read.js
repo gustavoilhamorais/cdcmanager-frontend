@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import api from "../../api/conf";
 import { Link, withRouter } from "react-router-dom";
-
-// import '../../vendor/datatables/dataTables.bootstrap4.css';
-// import DataTable from 'datatables.net';
-// const $ = require('jquery');
+import Swal from 'sweetalert2';
 
 class ReadCategories extends Component {
   state = {
@@ -15,9 +12,6 @@ class ReadCategories extends Component {
 
   componentDidMount() {
     this.loadCategories();
-    // $(document).ready(function() {
-    //   $('#dataTable').DataTable();
-    // })
   }
 
   loadCategories = async (page = 1) => {
@@ -45,12 +39,20 @@ class ReadCategories extends Component {
   };
 
   deleteCategory = async id => {
-    const confirm = window.confirm("Você deseja mesmo deletar?");
-
-    if (confirm === true) {
-      await api.delete(`/categories/${id}`);
-      await this.loadCategories();
-    };
+    Swal.fire({
+      title: "Atenção!",
+      html: "<p>Você tem certeza que deseja apagar esta categoria?</p>",
+      type: "warning",
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Sim, deletar!",
+      cancelButtonText: "Cancelar"
+    }).then(response => {
+      if (response.value === true) {
+        api.delete(`/categories/${id}`);
+        this.loadCategories();
+      }
+    });
   };
 
   render() {
@@ -93,13 +95,15 @@ class ReadCategories extends Component {
                       <td> {category.provider} </td>
                       <td> {category.gender} </td>
                       <td> {category.atStorage} </td>
-                      <td>
-                        <Link to={`/edit-category/${category._id}`} className="btn btn-secondary btn-bg ml-1 fas fa-edit" />
+                      <td className="text-center">
+                        <Link to={`/edit-category/${category._id}`} className="btn btn-secondary btn-sm ml-1">
+                          <i className="fas fa-edit" />
+                        </Link>
                         <button
-                          className="btn btn-danger btn-bg ml-1 fas fa-trash"
+                          className="btn btn-danger btn-sm ml-1"
                           name="deleteBtn"
                           onClick={()=> { this.deleteCategory(category._id) }}
-                        >
+                          ><i className="fas fa-ban" />
                         </button>
                       </td>
                     </tr>
