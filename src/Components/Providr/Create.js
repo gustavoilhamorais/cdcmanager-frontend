@@ -22,9 +22,10 @@ class CreateProviders extends Component {
       "phone": this.state.phone
     };
 
-    const message = `Fornecedor "${newProvider.name}" adicionado.`
-    postRequest('/providers', newProvider, message)
-      .then(()=> this.props.history.push("/providers"));
+  postRequest('/providers', newProvider)
+    .then(response =>  {
+      if (response) this.props.history.push("/providers");
+    });
   };
 
   handleChange = e => {
