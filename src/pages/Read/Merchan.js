@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components //
-import Logout from "../../Components/Logout/Main";
-import Merchandise from "../../Components/Merchan/Read";
+import Logout from "../../components/Logout/Main";
+import Merchandise from "../../components/Merchan/Read";
 
 // App //
 function ListMerchan() {

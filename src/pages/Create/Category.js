@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components //
-import Logout from "../../Components/Logout/Main";
-import CreateCategories from "../../Components/Category/Create";
+import Logout from "../../components/Logout/Main";
+import CreateCategories from "../../components/Category/Create";
 
 // App //
 function CreateCategory() {

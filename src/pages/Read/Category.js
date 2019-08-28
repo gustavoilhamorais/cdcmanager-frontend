@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components //
-import Logout from "../../Components/Logout/Main";
-import ReadCategories from "../../Components/Category/Read";
+import Logout from "../../components/Logout/Main";
+import ReadCategories from "../../components/Category/Read";
 
 // App //
 function ReadCategory() {

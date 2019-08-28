@@ -1,7 +1,7 @@
 import React from "react";
 
 // Components //
-import Login from "../Components/Login/Main";
+import Login from "../components/Login/Main";
 
 // App //
 function LoginPage() {

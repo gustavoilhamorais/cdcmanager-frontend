@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components //
-import Logout from "../../Components/Logout/Main";
-import UpdateCategories from "../../Components/Category/Update";
+import Logout from "../../components/Logout/Main";
+import UpdateCategories from "../../components/Category/Update";
 
 // App //
 function UpdateCategory() {

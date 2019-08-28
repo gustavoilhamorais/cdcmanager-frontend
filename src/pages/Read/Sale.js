@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components //
-import Logout from "../../Components/Logout/Main";
-import Sale from "../../Components/Sale/Read";
+import Logout from "../../components/Logout/Main";
+import Sale from "../../components/Sale/Read";
 
 // App //
 function ListSale() {

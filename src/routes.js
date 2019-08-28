@@ -3,31 +3,31 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 
 // Pages //
-import Register from "./Pages/Register";
-import Login from './Pages/Login';
-import Dashboard from './Pages/Dashboard';
-import NavigationContext from "./Components/Navbar";
+import Register from "./pages/Register";
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import NavigationContext from "./components/Navbar";
 
-import CreateCategory from "./Pages/Create/Category";
-import CreateCustomer from "./Pages/Create/Customer";
-import CreateMerchan from "./Pages/Create/Merchan";
-import CreateProvider from "./Pages/Create/Provider";
-import CreateRental from "./Pages/Create/Rental";
-import CreateSale from "./Pages/Create/Sale";
+import CreateCategory from "./pages/Create/Category";
+import CreateCustomer from "./pages/Create/Customer";
+import CreateMerchan from "./pages/Create/Merchan";
+import CreateProvider from "./pages/Create/Provider";
+import CreateRental from "./pages/Create/Rental";
+import CreateSale from "./pages/Create/Sale";
 
-import ReadCategories from "./Pages/Read/Category";
-import ReadCustomer from "./Pages/Read/Customer";
-import ReadMerchan from "./Pages/Read/Merchan";
-import ReadProvider from "./Pages/Read/Provider";
-import ReadRental from "./Pages/Read/Rental";
-import ReadSale from "./Pages/Read/Sale";
+import ReadCategories from "./pages/Read/Category";
+import ReadCustomer from "./pages/Read/Customer";
+import ReadMerchan from "./pages/Read/Merchan";
+import ReadProvider from "./pages/Read/Provider";
+import ReadRental from "./pages/Read/Rental";
+import ReadSale from "./pages/Read/Sale";
 
-import UpdateCategory from "./Pages/Update/Category";
-import UpdateCustomer from "./Pages/Update/Customer";
-import UpdateMerchan from "./Pages/Update/Merchan";
-import UpdateProvider from "./Pages/Update/Provider";
-import UpdateRental from "./Pages/Update/Rental";
-import UpdateSale from "./Pages/Update/Sale";
+import UpdateCategory from "./pages/Update/Category";
+import UpdateCustomer from "./pages/Update/Customer";
+import UpdateMerchan from "./pages/Update/Merchan";
+import UpdateProvider from "./pages/Update/Provider";
+import UpdateRental from "./pages/Update/Rental";
+import UpdateSale from "./pages/Update/Sale";
 
 function onAuthRequired({history}) {
   history.push('/#/login');

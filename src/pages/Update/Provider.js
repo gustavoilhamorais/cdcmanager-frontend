@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components //
-import Logout from "../../Components/Logout/Main";
-import UpdateProviders from "../../Components/Providr/Update"
+import Logout from "../../components/Logout/Main";
+import UpdateProviders from "../../components/Providr/Update"
 
 // App //
 function UpdateProvider() {

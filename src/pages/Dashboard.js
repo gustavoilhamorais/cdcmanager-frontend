@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Card from "../Components/Card";
-import RentsCard from "../Components/Dashboard/RentsCard";
-import AlertCard from '../Components/Dashboard/AlertsCard';
-import IncomingsCard from "../Components/Dashboard/IncomingsCard";
+import Card from "../components/Card";
+import RentsCard from "../components/Dashboard/RentsCard";
+import AlertCard from '../components/Dashboard/AlertsCard';
+import IncomingsCard from "../components/Dashboard/IncomingsCard";
 
 class Dashboard extends Component {
   render() {

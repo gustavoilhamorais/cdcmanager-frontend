@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components //
-import Logout from "../../Components/Logout/Main";
-import CreateCustomers from "../../Components/Customer/Create";
+import Logout from "../../components/Logout/Main";
+import CreateCustomers from "../../components/Customer/Create";
 
 // App //
 function CreateCustomer() {

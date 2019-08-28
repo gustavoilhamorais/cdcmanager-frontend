@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components //
-import Logout from "../../Components/Logout/Main";
-import UpdateRentals from "../../Components/Rental/Update";
+import Logout from "../../components/Logout/Main";
+import UpdateRentals from "../../components/Rental/Update";
 
 // App //
 function UpdateRental() {

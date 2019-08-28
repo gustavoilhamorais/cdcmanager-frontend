@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components //
-import Logout from "../../Components/Logout/Main";
-import UpdateMerchans from "../../Components/Merchan/Update";
+import Logout from "../../components/Logout/Main";
+import UpdateMerchans from "../../components/Merchan/Update";
 
 // App //
 function UpdateMerchan() {

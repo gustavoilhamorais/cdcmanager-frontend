@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components //
-import Logout from "../../Components/Logout/Main";
-import CreateRentals from "../../Components/Rental/Create";
+import Logout from "../../components/Logout/Main";
+import CreateRentals from "../../components/Rental/Create";
 
 // App //
 function CreateRental() {
