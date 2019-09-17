@@ -1,73 +1,45 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
+import React from 'react';
 
-// Pages //
-import Register from "./pages/Register";
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import NavigationContext from "./components/Navbar";
+const Dashboard = React.lazy(() => import('./Pages/Dashboard'));
+const Sales = React.lazy(() => import('./Pages/Sales'));
+const NewSale = React.lazy(() => import('./Pages/NewSale'));
+const Products = React.lazy(() => import('./Pages/Products'));
+const NewProduct = React.lazy(() => import('./Pages/NewProduct'));
+const BuisinessProposals = React.lazy(() => import('./Pages/BuisinessProposals'));
+const SaleOrders = React.lazy(() => import('./Pages/SaleOrders'));
+const NewSaleOrder = React.lazy(() => import('./Pages/NewSaleOrder'));
+const ShoppingRequests = React.lazy(() => import('./Pages/ShoppingRequests'));
+const NewShoppingRequest = React.lazy(() => import('./Pages/NewShoppingRequest'));
+const Shopping = React.lazy(() => import('./Pages/Shopping'));
+const NewShopping = React.lazy(() => import('./Pages/NewShopping'));
+const Salesman = React.lazy(() => import('./Pages/Salesman'));
+const NewSalesman = React.lazy(() => import('./Pages/NewSalesman'));
+const Customers = React.lazy(() => import('./Pages/Customers'));
+const NewCustomer = React.lazy(() => import('./Pages/NewCustomer'));
+const Providers = React.lazy(() => import('./Pages/Providers'));
+const NewProvider = React.lazy(() => import('./Pages/NewProvider'));
 
-import CreateCategory from "./pages/Create/Category";
-import CreateCustomer from "./pages/Create/Customer";
-import CreateMerchan from "./pages/Create/Merchan";
-import CreateProvider from "./pages/Create/Provider";
-import CreateRental from "./pages/Create/Rental";
-import CreateSale from "./pages/Create/Sale";
+// https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
+const routes = [
+  { path: '/', exact: true, name: 'Home' },
+  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/vendas', name: 'Vendas', component: Sales },
+  { path: '/nova-venda', name: 'Nova Venda', component: NewSale },
+  { path: '/produtos', name: 'Produtos', component: Products },
+  { path: '/novo-produto', name: 'Novo Produto', component: NewProduct },
+  { path: '/propostas-comerciais', name: 'Propostas Comerciais', component: BuisinessProposals },
+  { path: '/pedidos-de-venda', name: 'Pedidos de Venda', component: SaleOrders },
+  { path: '/novo-pedido-de-venda', name: 'Novo Pedido de Venda', component: NewSaleOrder },
+  { path: '/compras', name: 'Compras', component: Shopping },
+  { path: '/pedidos-de-compra', name: 'Pedidos de Compra', component: ShoppingRequests },
+  { path: '/novo-pedido-de-compra', name: 'Novo Pedido de Compra', component: NewShoppingRequest },
+  { path: '/nova-compra', name: 'Nova Compra', component: NewShopping },
+  { path: '/vendedores', name: 'Vendedores', component: Salesman },
+  { path: '/novo-vendedor', name: 'Novo Vendedor', component: NewSalesman },
+  { path: '/clientes', name: 'Clientes', component: Customers },
+  { path: '/novo-cliente', name: 'Novo Cliente', component: NewCustomer },
+  { path: '/fornecedores', name: 'Fornecedores', component: Providers },
+  { path: '/novo-fornecedor', name: 'Novo Fornecedor', component: NewProvider },
+];
 
-import ReadCategories from "./pages/Read/Category";
-import ReadCustomer from "./pages/Read/Customer";
-import ReadMerchan from "./pages/Read/Merchan";
-import ReadProvider from "./pages/Read/Provider";
-import ReadRental from "./pages/Read/Rental";
-import ReadSale from "./pages/Read/Sale";
-
-import UpdateCategory from "./pages/Update/Category";
-import UpdateCustomer from "./pages/Update/Customer";
-import UpdateMerchan from "./pages/Update/Merchan";
-import UpdateProvider from "./pages/Update/Provider";
-import UpdateRental from "./pages/Update/Rental";
-import UpdateSale from "./pages/Update/Sale";
-
-function onAuthRequired({history}) {
-  history.push('/#/login');
-}
-
-// Routes //
-const Routes = () => (
-  <BrowserRouter>
-    <Security issuer="https://dev-675287.okta.com/oauth2/default"
-              client_id="0oa1234pheVYoimPF357"
-              redirect_uri={window.location.origin + '/implicit/callback'}
-              onAuthRequired={onAuthRequired}>
-      <Switch>
-          <Route path="/register" component={Register} />
-          <Route path="/login" render={() => <Login baseURL="https://dev-675287.okta.com"/>} />
-          <Route path="/implicit/callback" component={ImplicitCallback} />
-        <NavigationContext>
-          <SecureRoute exact path="/" component={Dashboard} />
-          <SecureRoute path="/new-category" component={CreateCategory} />
-          <SecureRoute path="/new-customer" component={CreateCustomer} />
-          <SecureRoute path="/new-merchan" component={CreateMerchan} />
-          <SecureRoute path="/new-provider" component={CreateProvider} />
-          <SecureRoute path="/new-rental" component={CreateRental} />
-          <SecureRoute path="/new-sale" component={CreateSale} />
-          <SecureRoute path="/categories" component={ReadCategories} />
-          <SecureRoute path="/customers" component={ReadCustomer} />
-          <SecureRoute path="/merchans" component={ReadMerchan} />
-          <SecureRoute path="/providers" component={ReadProvider} />
-          <SecureRoute path="/rentals" component={ReadRental} />
-          <SecureRoute path="/sales" component={ReadSale} />
-          <SecureRoute path="/edit-category/:id" component={UpdateCategory} />
-          <SecureRoute path="/edit-customer/:id" component={UpdateCustomer} />
-          <SecureRoute path="/edit-merchan/:id" component={UpdateMerchan} />
-          <SecureRoute path="/edit-provider/:id" component={UpdateProvider} />
-          <SecureRoute path="/edit-rental/:id" component={UpdateRental} />
-          <SecureRoute path="/edit-sale/:id" component={UpdateSale} />
-        </NavigationContext>
-      </Switch>
-    </Security>
-  </BrowserRouter>
-);
-
-export default Routes;
+export default routes;
